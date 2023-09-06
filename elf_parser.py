@@ -74,7 +74,7 @@ def decode_all_file_line(dwarfinfo):
     # print(line_map)
     return line_map
 
-def disassemble(irfile, arch, mode):
+def disassemble(irfile, arch=CS_ARCH_X86, mode=CS_MODE_64):
     # irfile is the ir output by ddisasm
     md = Cs(arch, mode)
     ir = gtirb.ir.IR.load_protobuf(irfile)
@@ -88,11 +88,14 @@ def disassemble(irfile, arch, mode):
         for insn in md.disasm(code, base):
             addr = insn.address
             body = f"{insn.mnemonic} {insn.op_str}"
-            print(hex(addr), end=' ')
-            print(body)
-
+            insns[hex(addr)] = body
+            # print(hex(addr), end=' ')
+            # print(body)
+    
+    return insns
 
 
 if __name__ == '__main__':
     # parse_dwarf('test.o')
-    disassemble('test.db', CS_ARCH_X86, CS_MODE_64)
+    # disassemble('test.db', CS_ARCH_X86, CS_MODE_64)
+    source(['test.c'])

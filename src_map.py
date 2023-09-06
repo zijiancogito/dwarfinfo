@@ -31,10 +31,10 @@ def map_src_vs_asm(src_file, asm_file, line_map):
         if len(insts) > 0:
             map_list.append((src, insts))
     
-    for src in map_list:
-        print(src[0])
-        print(src[1])
-        print()
+    # for src in map_list:
+        # print(src[0])
+        # print(src[1])
+        # print()
     return map_list
 
 

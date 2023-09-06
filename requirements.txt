@@ -1,0 +1,4 @@
+capstone==5.0.1
+ddisasm==1.6.0
+gtirb==1.11.0
+pyelftools==0.29

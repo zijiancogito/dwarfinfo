@@ -74,7 +74,17 @@ def decode_all_file_line(dwarfinfo):
     # print(line_map)
     return line_map
 
-def disassemble(irfile, arch=CS_ARCH_X86, mode=CS_MODE_64):
+def disassemble(irfile, machine):
+    arch, mode = None, None
+    if machine == 'x86':
+        arch = CS_ARCH_X86
+        mode = CS_MODE_64
+    elif machine == 'arm':
+        arch = CS_ARCH_ARM:
+        mode = CS_MODE_64
+    else:
+        raise NotImplementedError
+
     # irfile is the ir output by ddisasm
     md = Cs(arch, mode)
     ir = gtirb.ir.IR.load_protobuf(irfile)

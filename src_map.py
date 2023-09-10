@@ -52,7 +52,7 @@ def build_map(filename):
 
 if __name__ == '__main__':
     ir = "test.db"
-    insns = elf_parser.disassemble(ir)
+    insns = elf_parser.disassemble(ir, 'x86')
     with open("asm.list", 'w') as f:
         for insn in insns:
             f.write(f"{insn}:\t{insns[insn]}\n")

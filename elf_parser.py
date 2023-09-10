@@ -76,10 +76,10 @@ def decode_all_file_line(dwarfinfo):
 
 def disassemble(irfile, machine):
     arch, mode = None, None
-    if machine == 'x86':
+    if machine == 'x64':
         arch = CS_ARCH_X86
         mode = CS_MODE_64
-    elif machine == 'arm':
+    elif machine == 'aarch64':
         arch = CS_ARCH_ARM:
         mode = CS_MODE_64
     else:

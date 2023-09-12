@@ -80,7 +80,10 @@ def disassemble(irfile, machine):
         arch = CS_ARCH_X86
         mode = CS_MODE_64
     elif machine == 'aarch64':
-        arch = CS_ARCH_ARM:
+        arch = CS_ARCH_ARM
+        mode = CS_MODE_64
+    elif machine == 'mips64':
+        arch = CS_ARCH_MIPS
         mode = CS_MODE_64
     else:
         raise NotImplementedError

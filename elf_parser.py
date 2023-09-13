@@ -65,8 +65,10 @@ def decode_all_file_line(dwarfinfo):
 
             if prevstate:
                 filename = lineprog['file_entry'][prevstate.file - delta].name.decode()
+                # print(filename)
+                # print(os.path.abspath(filename))
                 line = prevstate.line
-                line_map[f'{filename}:{line}'].append((hex(prevstate.address), hex(entry.state.address)))
+                line_map[f'{os.path.abspath(filename)}:{line}'].append((hex(prevstate.address), hex(entry.state.address)))
             if entry.state.end_sequence:
                 prevstate = None
             else:
@@ -109,6 +111,6 @@ def disassemble(irfile, machine):
 
 
 if __name__ == '__main__':
-    # parse_dwarf('test.o')
+    parse_dwarf('test.o')
     # disassemble('test.db', CS_ARCH_X86, CS_MODE_64)
-    source(['test.c'])
+    # source(['test.c'])

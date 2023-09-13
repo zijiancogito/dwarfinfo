@@ -1,6 +1,7 @@
 import sys
 from collections import defaultdict
 import elf_parser
+import os
 
 def source(srcfiles):
     srcs = defaultdict(str)
@@ -9,7 +10,7 @@ def source(srcfiles):
             line = f.readline()
             idx = 1
             while line:
-                srcs[f"{filename}:{idx}"] = line
+                srcs[f"{os.path.abspath(filename)}:{idx}"] = line
                 line = f.readline()
                 idx += 1
     return srcs

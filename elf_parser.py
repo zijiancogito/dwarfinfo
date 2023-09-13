@@ -21,7 +21,15 @@ def parse_dwarf(filename, address=None):
             file, line = decode_file_line(dwarfinfo, address)
             return 1, file, line
         else:
-            line_map = decode_all_file_line(dwarfinfo)
+            tmp_map = decode_all_file_line(dwarfinfo)
+            line_map = defaultdict(list)
+            for key in tmp_map:
+                rpath = key.split(':')[0]
+                apath = os.path.dirname(os.path.abspath(filename))
+                fpath = os.path.abspath(os.path.join(apath, rpath))
+                line_map[fpath] = tmp_map[key]
+            print(line_map)
+
             return 0, line_map, None
         
 def decode_file_line(dwarfinfo, address):
@@ -66,9 +74,8 @@ def decode_all_file_line(dwarfinfo):
             if prevstate:
                 filename = lineprog['file_entry'][prevstate.file - delta].name.decode()
                 # print(filename)
-                # print(os.path.abspath(filename))
                 line = prevstate.line
-                line_map[f'{os.path.abspath(filename)}:{line}'].append((hex(prevstate.address), hex(entry.state.address)))
+                line_map[f'{filename}:{line}'].append((hex(prevstate.address), hex(entry.state.address)))
             if entry.state.end_sequence:
                 prevstate = None
             else:
@@ -111,6 +118,6 @@ def disassemble(irfile, machine):
 
 
 if __name__ == '__main__':
-    parse_dwarf('test.o')
+    parse_dwarf('./test/test.o')
     # disassemble('test.db', CS_ARCH_X86, CS_MODE_64)
     # source(['test.c'])

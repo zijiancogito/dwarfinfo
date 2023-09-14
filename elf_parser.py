@@ -22,7 +22,6 @@ def parse_dwarf(filename, address=None):
             return 1, file, line
         else:
             line_map = decode_all_file_line(dwarfinfo)
-            print(line_map)
             return 0, line_map, None
         
 def decode_file_line(dwarfinfo, address):

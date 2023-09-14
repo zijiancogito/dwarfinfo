@@ -21,15 +21,8 @@ def parse_dwarf(filename, address=None):
             file, line = decode_file_line(dwarfinfo, address)
             return 1, file, line
         else:
-            tmp_map = decode_all_file_line(dwarfinfo)
-            line_map = defaultdict(list)
-            for key in tmp_map:
-                rpath = key.split(':')[0]
-                apath = os.path.dirname(os.path.abspath(filename))
-                fpath = os.path.abspath(os.path.join(apath, rpath))
-                line_map[fpath] = tmp_map[key]
-            print(line_map)
-
+            line_map = decode_all_file_line(dwarfinfo)
+            # print(line_map)
             return 0, line_map, None
         
 def decode_file_line(dwarfinfo, address):

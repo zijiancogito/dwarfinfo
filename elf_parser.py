@@ -7,6 +7,7 @@ from elftools.elf.elffile import ELFFile
 from capstone import *
 
 import gtirb
+import re
 
 def parse_dwarf(filename, address=None):
     with open(filename, 'rb') as f:
@@ -106,7 +107,7 @@ def disassemble(irfile, machine):
         base = b.address
         for insn in md.disasm(code, base):
             addr = insn.address
-            body = f"{insn.mnemonic} {insn.op_str}"
+            body = f"{insn.mnemonic} {re.sub('\t', ' ', insn.op_str, 100)}"
             insns[hex(addr)] = body
             # print(hex(addr), end=' ')
             # print(body)

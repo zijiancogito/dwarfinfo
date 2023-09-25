@@ -92,6 +92,9 @@ def disassemble(irfile, machine):
     elif machine == 'mips64':
         arch = CS_ARCH_MIPS
         mode = CS_MODE_MIPS64
+    elif machine == 'mips':
+        arch = CS_ARCH_MIPS
+        mode = CS_MODE_MIPS32
     else:
         raise NotImplementedError
 

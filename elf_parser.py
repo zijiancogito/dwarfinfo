@@ -9,7 +9,7 @@ from capstone import *
 import gtirb
 import re
 
-def parse_dwarf(filename, address=None):
+def parse_dwarf(filename, arch='x64', address=None):
     with open(filename, 'rb') as f:
         elffile = ELFFile(f)
 
@@ -53,7 +53,7 @@ def decode_file_line(dwarfinfo, address):
                 prevstate = entry.state
     return None, None
 
-def decode_all_file_line(dwarfinfo):
+def decode_all_file_line(dwarfinfo, arch='x64'):
     line_map = defaultdict(list)
     for CU in dwarfinfo.iter_CUs():
         lineprog = dwarfinfo.line_program_for_CU(CU)
@@ -67,13 +67,14 @@ def decode_all_file_line(dwarfinfo):
             if prevstate:
                 filename = lineprog['file_entry'][prevstate.file - delta].name.decode()
                 dir_idx = lineprog['file_entry'][prevstate.file -delta].dir_index
-                print(dir_idx)
-                print(lineprog['include_directory'])
+                # print(dir_idx)
+                # print(lineprog['include_directory'])
                 base_dir = lineprog['include_directory'][0].decode()
-
-                rel_dir = lineprog['include_directory'][dir_idx].decode()
-                # print(filename)
-                path = os.path.abspath(os.path.join(base_dir, rel_dir, filename))
+                if arch == 'mips':
+                    path = os.path.abspath(os.path.join(base_dir, filename))
+                else:
+                    rel_dir = lineprog['include_directory'][dir_idx].decode()
+                    path = os.path.abspath(os.path.join(base_dir, rel_dir, filename))
                 line = prevstate.line
                 line_map[f'{path}:{line}'].append((hex(prevstate.address), hex(entry.state.address)))
             if entry.state.end_sequence:
@@ -122,6 +123,6 @@ def disassemble(irfile, machine):
 
 
 if __name__ == '__main__':
-    parse_dwarf('./test/test.o')
+    parse_dwarf('./test/test.o', 'mips')
     # disassemble('test.db', CS_ARCH_X86, CS_MODE_64)
     # source(['test.c'])

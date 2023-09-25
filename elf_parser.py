@@ -67,8 +67,10 @@ def decode_all_file_line(dwarfinfo):
             if prevstate:
                 filename = lineprog['file_entry'][prevstate.file - delta].name.decode()
                 dir_idx = lineprog['file_entry'][prevstate.file -delta].dir_index
+                print(dir_idx)
                 print(lineprog['include_directory'])
                 base_dir = lineprog['include_directory'][0].decode()
+
                 rel_dir = lineprog['include_directory'][dir_idx].decode()
                 # print(filename)
                 path = os.path.abspath(os.path.join(base_dir, rel_dir, filename))

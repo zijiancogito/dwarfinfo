@@ -110,7 +110,8 @@ def disassemble(irfile, machine):
         base = b.address
         for insn in md.disasm(code, base):
             addr = insn.address
-            body = f"{insn.mnemonic} {re.sub('\t', ' ', insn.op_str, 100)}"
+            op_str = re.sub('\t', ' ', insn.op_str, 100)
+            body = f"{insn.mnemonic} {op_str}"
             insns[hex(addr)] = body
             # print(hex(addr), end=' ')
             # print(body)

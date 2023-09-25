@@ -22,7 +22,7 @@ def parse_dwarf(filename, arch='x64', address=None):
             file, line = decode_file_line(dwarfinfo, address)
             return 1, file, line
         else:
-            line_map = decode_all_file_line(dwarfinfo)
+            line_map = decode_all_file_line(dwarfinfo, arch)
             return 0, line_map, None
         
 def decode_file_line(dwarfinfo, address):
@@ -123,6 +123,6 @@ def disassemble(irfile, machine):
 
 
 if __name__ == '__main__':
-    parse_dwarf('./test/test.o', 'mips')
+    parse_dwarf('./test/test-mips.o', 'mips')
     # disassemble('test.db', CS_ARCH_X86, CS_MODE_64)
     # source(['test.c'])
